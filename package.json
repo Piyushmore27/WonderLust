@@ -1,0 +1,25 @@
+{
+  "name": "wonderlust",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Piyushmore27/WonderLust.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Piyushmore27/WonderLust/issues"
+  },
+  "homepage": "https://github.com/Piyushmore27/WonderLust#readme",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0"
+  }
+}
