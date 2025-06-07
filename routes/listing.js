@@ -1,5 +1,5 @@
 const express  = require("express");
-const { route } = require("../classroom/routes/user");
+const { rout } = require("../classroom/routes/user");
 const router = express.Router();
 const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
@@ -46,7 +46,7 @@ router.get("/:id",
 router.post("/",vaildateListing,
     wrapAsync(async(req,res,next)=>{
     let result = listingSchema.validate(req.body);
-    console.log(result);
+    
     const newListing = new Listing(req.body.listing);
     
     await newListing.save();
