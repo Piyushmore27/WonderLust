@@ -37,6 +37,10 @@ router.get("/:id",
     wrapAsync(async(req,res)=> {
     let {id} = req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if(!listing){
+        req.flash("error","Listing Not found!");
+        res.redirect("/listings");
+    }
     res.render("listings/show.ejs",{ listing });
 }));
 
@@ -50,6 +54,7 @@ router.post("/",vaildateListing,
     const newListing = new Listing(req.body.listing);
     
     await newListing.save();
+    req.flash("success","New Listing Created!");
     res.redirect("/listings");
     }
 ));
@@ -60,23 +65,37 @@ router.get("/:id/edit",
     wrapAsync(async(req,res)=> {
     let {id} = req.params;
     const listing = await Listing.findById(id);
+    if(!listing){
+        req.flash("error","Listing Not found!");
+        res.redirect("/listings");
+    }
     res.render("listings/edit.ejs",{ listing });
 }));
 
 //update route 
-router.put("/:id",vaildateListing,
-    wrapAsync(async(req,res)=>{
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    res.redirect(`/listings/${id}`);
-}));
+router.put("/:id", vaildateListing, wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const listingData = req.body.listing;
 
-//delte route
+    // Fix the nested image object
+    const updatedData = {
+        ...listingData,
+        image: {
+            url: listingData.image?.url || "" // handle undefined
+        }
+    };
+
+    await Listing.findByIdAndUpdate(id, updatedData);
+    req.flash("success", "Listing Updated!");
+    res.redirect(`/listings/${id}`);
+}))
+
+//delete route
 router.delete("/:id",
     wrapAsync(async (req,res)=>{
     let {id} = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
-    // console.log(deletedListing);
+    req.flash("success","Listing deleted!");
     res.redirect("/listings");
 }));
 
