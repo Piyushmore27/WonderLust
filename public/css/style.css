@@ -23,12 +23,13 @@ body{
 
 }
 
-.f-info-links a {
+#footerLink {
     text-decoration: none;
     color: #222222;
 }
 
-.f-info-links a:hover {
+#footerLink:hover {
+    color: black;
     text-decoration: underline;
     
 }
@@ -106,4 +107,11 @@ body{
 .show-card{
     padding-left: 0;
     padding-right: 0;
+}
+
+.nav-bar {
+   display: flex;
+}
+.nav-bar a {
+    padding: 1rem;
 }
