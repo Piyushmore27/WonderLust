@@ -28,11 +28,12 @@ module.exports.showListing = async(req,res)=> {
 };
 
 module.exports.createListing = async(req,res,next)=>{
-    let result = listingSchema.validate(req.body);
-    
+    let url = req.file.path;
+    let filename = req.file.filename;
+
     const newListing = new Listing(req.body.listing);
-    // console.log(req.user);
     newListing.owner = req.user._id;
+    newListing.image = {url,filename};
     await newListing.save();
     req.flash("success","New Listing Created!");
     res.redirect("/listings");
@@ -46,22 +47,21 @@ module.exports.editForm = async(req,res)=> {
         req.flash("error","Listing Not found!");
         res.redirect("/listings");
     }
-    res.render("listings/edit.ejs",{ listing });
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
+    res.render("listings/edit.ejs",{ listing , originalImageUrl});
 };
 
 module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
-        const listingData = req.body.listing;
-
-    // Fix the nested image object
-    const updatedData = {
-        ...listingData,
-        image: {
-            url: listingData.image?.url || "" // handle undefined
-        }
-    };
-
-    await Listing.findByIdAndUpdate(id, updatedData);
+    const updatedData = req.body.listing;
+    let listing = await Listing.findByIdAndUpdate(id, updatedData);
+    if(typeof req.file !== "undefined"){
+        let url = req.file.path;
+        let filename = req.file.filename;
+        listing.image = {url, filename};
+        await listing.save();
+    }
     req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`);
 };

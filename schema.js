@@ -13,7 +13,7 @@ module.exports.listingSchema = Joi.object({
             Joi.object({
                 url: Joi.string().allow("", null)
             })
-        ),
+        )
     }).required()
 });
 
