@@ -1,5 +1,5 @@
 const express  = require("express");
-const { rout } = require("../classroom/routes/user");
+
 const router = express.Router();
 const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
