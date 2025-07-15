@@ -15,13 +15,14 @@ module.exports.listingSchema = Joi.object({
             })
         )
     }).required(),
-    rating: Joi.number().required().min(1).max(5)
+    
 });
+
 
 
 module.exports.reviewSchema = Joi.object({
     review: Joi.object({
-        
+        rating: Joi.number().required().min(1).max(5),  // <-- add this line
         comment: Joi.string().required(),
     }).required(),
 });

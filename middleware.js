@@ -47,7 +47,7 @@ module.exports.vaildateListing = (req,res,next)=>{
 
 
 module.exports.vaildateReview = (req, res, next) => {
-    let { error } = reviewSchema.validate(req.body);
+    let { error } = reviewSchema.validate(req.body, {convert: true});
 
     if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
